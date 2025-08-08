@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useLocation } from 'react-router-dom';
 
 const Header = ({ onMenuClick, drawerWidth }) => {
+  const [title, setTitle] = useState('Dashboard');
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    switch (path) {
+      case '/inventory':
+        setTitle('Inventory');
+        break;
+      case '/customers':
+        setTitle('Customers');
+        break;
+      case '/billing':
+        setTitle('Billing');
+        break;
+      case '/':
+      default:
+        setTitle('Dashboard');
+        break;
+    }
+  }, [location]);
+
   return (
     <AppBar
       position="fixed"
@@ -22,7 +45,7 @@ const Header = ({ onMenuClick, drawerWidth }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Dashboard
+          {title}
         </Typography>
       </Toolbar>
     </AppBar>

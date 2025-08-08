@@ -6,6 +6,8 @@ import {
   TextField,
   Button,
   Grid,
+  Divider,
+  Fade,
 } from '@mui/material';
 
 const style = {
@@ -13,10 +15,12 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: { xs: '90%', sm: 500 },
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 4,
+  p: 0,
+  borderRadius: '12px',
+  overflow: 'hidden',
 };
 
 const ProductForm = ({ open, onClose, onSave, product }) => {
@@ -44,7 +48,7 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: name === 'unitPrice' || name === 'qty' ? parseFloat(value) || '' : value }));
   };
 
   const handleSubmit = (e) => {
@@ -53,17 +57,21 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
-        <Typography variant="h6" component="h2">
-          {product ? 'Edit Product' : 'Add Product'}
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+    <Modal open={open} onClose={onClose} closeAfterTransition>
+      <Fade in={open}>
+        <Box sx={style}>
+          <Box sx={{ p: 3 }}>
+              <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+            {product ? 'Edit Product' : 'Add New Product'}
+            </Typography>
+        </Box>
+        <Divider />
+        <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 name="sku"
-                label="SKU"
+                label="SKU (Stock Keeping Unit)"
                 value={formData.sku}
                 onChange={handleChange}
                 fullWidth
@@ -73,7 +81,7 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
             <Grid item xs={12}>
               <TextField
                 name="name"
-                label="Name"
+                label="Product Name"
                 value={formData.name}
                 onChange={handleChange}
                 fullWidth
@@ -99,6 +107,7 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
                 onChange={handleChange}
                 fullWidth
                 required
+                inputProps={{ step: "0.01" }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -112,15 +121,18 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
                 required
               />
             </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" sx={{ mr: 1 }}>
-                Save
-              </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </Grid>
           </Grid>
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+            <Button onClick={onClose} variant="outlined">
+                Cancel
+            </Button>
+            <Button type="submit" variant="contained">
+                Save Product
+            </Button>
+          </Box>
         </Box>
-      </Box>
+        </Box>
+      </Fade>
     </Modal>
   );
 };

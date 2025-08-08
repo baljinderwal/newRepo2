@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   Divider,
+  Fade,
 } from '@mui/material';
 import { useReactToPrint } from 'react-to-print';
 
@@ -80,14 +81,16 @@ const PrintableReceipt = ({ open, onClose, bill }) => {
   });
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
-        <ReceiptContent ref={componentRef} bill={bill} />
-        <Box sx={{ mt: 2, textAlign: 'right' }}>
-          <Button onClick={handlePrint} variant="contained">Print</Button>
-          <Button onClick={onClose} sx={{ ml: 1 }}>Close</Button>
+    <Modal open={open} onClose={onClose} closeAfterTransition>
+      <Fade in={open}>
+        <Box sx={style}>
+          <ReceiptContent ref={componentRef} bill={bill} />
+          <Box sx={{ mt: 2, textAlign: 'right' }}>
+            <Button onClick={handlePrint} variant="contained">Print</Button>
+            <Button onClick={onClose} sx={{ ml: 1 }}>Close</Button>
+          </Box>
         </Box>
-      </Box>
+      </Fade>
     </Modal>
   );
 };

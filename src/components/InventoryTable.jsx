@@ -8,6 +8,8 @@ import {
   TableRow,
   Paper,
   IconButton,
+  Typography,
+  Box,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,7 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const InventoryTable = ({ products, onEdit, onDelete }) => {
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table sx={{ minWidth: 650 }}>
         <TableHead>
           <TableRow>
             <TableCell>SKU</TableCell>
@@ -28,19 +30,36 @@ const InventoryTable = ({ products, onEdit, onDelete }) => {
         </TableHead>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.sku}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.category}</TableCell>
-              <TableCell>${product.unitPrice.toFixed(2)}</TableCell>
-              <TableCell>{product.qty}</TableCell>
+            <TableRow
+              key={product.id}
+              sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+              }}
+            >
               <TableCell>
-                <IconButton onClick={() => onEdit(product)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={() => onDelete(product.id)}>
-                  <DeleteIcon />
-                </IconButton>
+                <Typography variant="body2" color="text.secondary">{product.sku}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body1" sx={{ fontWeight: '600' }}>{product.name}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">{product.category}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">${product.unitPrice.toFixed(2)}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">{product.qty}</Typography>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex' }}>
+                  <IconButton size="small" onClick={() => onEdit(product)}>
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small" onClick={() => onDelete(product.id)} sx={{ color: 'error.main' }}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Box>
               </TableCell>
             </TableRow>
           ))}

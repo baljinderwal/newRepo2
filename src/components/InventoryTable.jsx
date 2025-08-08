@@ -18,14 +18,14 @@ const InventoryTable = ({ products, onEdit, onDelete }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
-        <TableHead sx={{ backgroundColor: 'primary.main' }}>
+        <TableHead>
           <TableRow>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>SKU</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Category</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Unit Price</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Quantity</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
+            <TableCell>SKU</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Unit Price</TableCell>
+            <TableCell>Quantity</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,16 +34,13 @@ const InventoryTable = ({ products, onEdit, onDelete }) => {
               key={product.id}
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.action.hover,
-                },
               }}
             >
               <TableCell>
-                <Typography variant="body2">{product.sku}</Typography>
+                <Typography variant="body2" color="text.secondary">{product.sku}</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>{product.name}</Typography>
+                <Typography variant="body1" sx={{ fontWeight: '600' }}>{product.name}</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="body2">{product.category}</Typography>

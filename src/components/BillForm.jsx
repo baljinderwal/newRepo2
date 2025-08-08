@@ -75,7 +75,8 @@ const BillForm = ({ onSaveBill }) => {
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
+    <Paper sx={{ p: { xs: 2, sm: 3 } }}>
+      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>Create Bill</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Autocomplete
@@ -97,11 +98,10 @@ const BillForm = ({ onSaveBill }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mb: 1 }}>Bill Items</Typography>
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow sx={{ backgroundColor: (theme) => theme.palette.background.default }}>
+                <TableRow>
                   <TableCell>Product</TableCell>
                   <TableCell>Price</TableCell>
                   <TableCell sx={{ width: '100px' }}>Quantity</TableCell>
@@ -111,8 +111,8 @@ const BillForm = ({ onSaveBill }) => {
               </TableHead>
               <TableBody>
                 {billItems.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
+                  <TableRow key={item.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell sx={{ fontWeight: '600' }}>{item.name}</TableCell>
                     <TableCell>${item.unitPrice.toFixed(2)}</TableCell>
                     <TableCell>
                       <TextField
@@ -131,6 +131,15 @@ const BillForm = ({ onSaveBill }) => {
                     </TableCell>
                   </TableRow>
                 ))}
+                 {billItems.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={5} align="center">
+                            <Typography color="text.secondary" sx={{ py: 4 }}>
+                                Products added to the bill will appear here.
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -143,15 +152,15 @@ const BillForm = ({ onSaveBill }) => {
         <Grid item xs={12} md={6}></Grid>
         <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Subtotal:</Typography>
-                <Typography>${subtotal.toFixed(2)}</Typography>
+                <Typography color="text.secondary">Subtotal:</Typography>
+                <Typography sx={{ fontWeight: '600' }}>${subtotal.toFixed(2)}</Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Tax (12%):</Typography>
-                <Typography>${tax.toFixed(2)}</Typography>
+                <Typography color="text.secondary">Tax (12%):</Typography>
+                <Typography sx={{ fontWeight: '600' }}>${tax.toFixed(2)}</Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                <Typography>Discount:</Typography>
+                <Typography color="text.secondary">Discount:</Typography>
                 <TextField
                     type="number"
                     value={discount}
@@ -162,13 +171,13 @@ const BillForm = ({ onSaveBill }) => {
             </Box>
             <Divider sx={{ my: 1 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6">Total:</Typography>
-                <Typography variant="h6">${total.toFixed(2)}</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Total:</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>${total.toFixed(2)}</Typography>
             </Box>
         </Grid>
 
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button variant="contained" size="large" onClick={handleSave}>Save Bill</Button>
+          <Button variant="contained" size="large" onClick={handleSave}>Save & Generate Bill</Button>
         </Grid>
       </Grid>
     </Paper>

@@ -18,12 +18,12 @@ const CustomerTable = ({ customers, onEdit, onDelete }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
-        <TableHead sx={{ backgroundColor: 'primary.main' }}>
+        <TableHead>
           <TableRow>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Phone</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Email</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Phone</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -32,19 +32,16 @@ const CustomerTable = ({ customers, onEdit, onDelete }) => {
               key={customer.id}
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.action.hover,
-                },
               }}
             >
               <TableCell>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>{customer.name}</Typography>
+                <Typography variant="body1" sx={{ fontWeight: '600' }}>{customer.name}</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="body2">{customer.phone}</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="body2">{customer.email}</Typography>
+                <Typography variant="body2" color="text.secondary">{customer.email}</Typography>
               </TableCell>
               <TableCell>
                 <Box sx={{ display: 'flex' }}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Divider, Box, Typography } from '@mui/material';
+import { List, ListItemButton, ListItemIcon, ListItemText, Divider, Box, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -13,13 +13,11 @@ const menuItems = [
   { text: 'Billing', icon: <ReceiptIcon />, path: '/billing' },
 ];
 
-const NavDrawer = ({ open, onClose }) => {
-  const navLinkStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none',
-    color: 'inherit',
-    width: '100%',
+const NavDrawer = ({ onClose }) => {
+  const handleLinkClick = () => {
+    if (onClose) {
+      onClose();
+    }
   };
 
   const activeLinkStyles = {
@@ -31,18 +29,8 @@ const NavDrawer = ({ open, onClose }) => {
   };
 
   return (
-    <Drawer
-      anchor="left"
-      open={open}
-      onClose={onClose}
-      sx={{
-        '& .MuiDrawer-paper': {
-          width: 280,
-          boxSizing: 'border-box',
-        },
-      }}
-    >
-      <Box sx={{ p: 2 }}>
+    <div>
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', height: 64 }}>
         <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
           Inventory App
         </Typography>
@@ -55,7 +43,7 @@ const NavDrawer = ({ open, onClose }) => {
             component={NavLink}
             to={item.path}
             end={item.path === '/'}
-            onClick={onClose}
+            onClick={handleLinkClick}
             sx={{
               borderRadius: 1,
               mb: 0.5,
@@ -67,7 +55,7 @@ const NavDrawer = ({ open, onClose }) => {
           </ListItemButton>
         ))}
       </List>
-    </Drawer>
+    </div>
   );
 };
 

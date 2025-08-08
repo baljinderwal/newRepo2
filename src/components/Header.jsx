@@ -2,9 +2,15 @@ import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Header = ({ onMenuClick }) => {
+const Header = ({ onMenuClick, drawerWidth }) => {
   return (
-    <AppBar position="absolute" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar
+      position="fixed"
+      sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+      }}
+    >
       <Toolbar>
         <IconButton
           color="inherit"
@@ -15,8 +21,8 @@ const Header = ({ onMenuClick }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          {/* Title can be dynamic based on route later if needed */}
+        <Typography variant="h6" noWrap component="div">
+          Dashboard
         </Typography>
       </Toolbar>
     </AppBar>

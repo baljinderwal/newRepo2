@@ -25,7 +25,7 @@ function App() {
         <Router>
           <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <Header onMenuClick={handleDrawerToggle} />
+            <Header onMenuClick={handleDrawerToggle} drawerWidth={drawerWidth} />
             <Box
               component="nav"
               sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

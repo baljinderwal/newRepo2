@@ -12,6 +12,8 @@ import {
   TableCell,
   TableBody,
   IconButton,
+  Box,
+  Divider,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StoreContext } from '../context/StoreContext';
@@ -28,12 +30,10 @@ const BillForm = ({ onSaveBill }) => {
     if (product) {
       const existingItem = billItems.find(item => item.id === product.id);
       if (existingItem) {
-        // Increase quantity if product is already in the bill
         setBillItems(billItems.map(item =>
           item.id === product.id ? { ...item, qty: item.qty + 1 } : item
         ));
       } else {
-        // Add new product to the bill
         setBillItems([...billItems, { ...product, qty: 1 }]);
       }
     }
@@ -69,21 +69,20 @@ const BillForm = ({ onSaveBill }) => {
       date: new Date().toISOString(),
     };
     onSaveBill(bill);
-    // Reset form
     setSelectedCustomer(null);
     setBillItems([]);
     setDiscount(0);
   };
 
   return (
-    <Paper sx={{ p: 2 }}>
-      <Grid container spacing={2}>
+    <Paper sx={{ p: 3 }}>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Autocomplete
             options={customers}
             getOptionLabel={(option) => option.name}
             onChange={(event, newValue) => setSelectedCustomer(newValue)}
-            renderInput={(params) => <TextField {...params} label="Select Customer" />}
+            renderInput={(params) => <TextField {...params} label="Select Customer" required />}
             value={selectedCustomer}
           />
         </Grid>
@@ -92,22 +91,22 @@ const BillForm = ({ onSaveBill }) => {
             options={products}
             getOptionLabel={(option) => `${option.name} (${option.sku})`}
             onChange={handleAddProduct}
-            renderInput={(params) => <TextField {...params} label="Add Product" />}
-            value={null} // Clear input after selection
+            renderInput={(params) => <TextField {...params} label="Search & Add Product" />}
+            value={null}
           />
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h6">Bill Items</Typography>
+          <Typography variant="h6" sx={{ mb: 1 }}>Bill Items</Typography>
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{ backgroundColor: (theme) => theme.palette.background.default }}>
                   <TableCell>Product</TableCell>
                   <TableCell>Price</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Total</TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell sx={{ width: '100px' }}>Quantity</TableCell>
+                  <TableCell align="right">Total</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -121,13 +120,13 @@ const BillForm = ({ onSaveBill }) => {
                         value={item.qty}
                         onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                         inputProps={{ min: 1 }}
-                        sx={{ width: '80px' }}
+                        size="small"
                       />
                     </TableCell>
-                    <TableCell>${(item.unitPrice * item.qty).toFixed(2)}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleRemoveItem(item.id)}>
-                        <DeleteIcon />
+                    <TableCell align="right">${(item.unitPrice * item.qty).toFixed(2)}</TableCell>
+                    <TableCell align="center">
+                      <IconButton size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color: 'error.main' }}>
+                        <DeleteIcon fontSize="small" />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -137,24 +136,39 @@ const BillForm = ({ onSaveBill }) => {
           </TableContainer>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Discount"
-            type="number"
-            value={discount}
-            onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} md={6} sx={{ textAlign: 'right' }}>
-          <Typography>Subtotal: ${subtotal.toFixed(2)}</Typography>
-          <Typography>Tax (12%): ${tax.toFixed(2)}</Typography>
-          <Typography>Discount: -${discount.toFixed(2)}</Typography>
-          <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
+        <Grid item xs={12}>
+            <Divider />
         </Grid>
 
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={handleSave}>Save Bill</Button>
+        <Grid item xs={12} md={6}></Grid>
+        <Grid item xs={12} md={6}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography>Subtotal:</Typography>
+                <Typography>${subtotal.toFixed(2)}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography>Tax (12%):</Typography>
+                <Typography>${tax.toFixed(2)}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Typography>Discount:</Typography>
+                <TextField
+                    type="number"
+                    value={discount}
+                    onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+                    size="small"
+                    sx={{ width: '100px' }}
+                />
+            </Box>
+            <Divider sx={{ my: 1 }} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="h6">Total:</Typography>
+                <Typography variant="h6">${total.toFixed(2)}</Typography>
+            </Box>
+        </Grid>
+
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="contained" size="large" onClick={handleSave}>Save Bill</Button>
         </Grid>
       </Grid>
     </Paper>

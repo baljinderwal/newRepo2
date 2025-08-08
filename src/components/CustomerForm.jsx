@@ -6,6 +6,8 @@ import {
   TextField,
   Button,
   Grid,
+  Divider,
+  Fade,
 } from '@mui/material';
 
 const style = {
@@ -13,10 +15,12 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: { xs: '90%', sm: 500 },
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 4,
+  p: 0,
+  borderRadius: '12px',
+  overflow: 'hidden',
 };
 
 const CustomerForm = ({ open, onClose, onSave, customer }) => {
@@ -49,53 +53,60 @@ const CustomerForm = ({ open, onClose, onSave, customer }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
-        <Typography variant="h6" component="h2">
-          {customer ? 'Edit Customer' : 'Add Customer'}
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                name="name"
-                label="Name"
-                value={formData.name}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
+    <Modal open={open} onClose={onClose} closeAfterTransition>
+      <Fade in={open}>
+        <Box sx={style}>
+          <Box sx={{ p: 3 }}>
+            <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+              {customer ? 'Edit Customer' : 'Add New Customer'}
+            </Typography>
+          </Box>
+          <Divider />
+          <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  name="name"
+                  label="Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="phone"
+                  label="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="email"
+                  label="Email Address"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="phone"
-                label="Phone"
-                value={formData.phone}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="email"
-                label="Email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" sx={{ mr: 1 }}>
-                Save
+            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+              <Button onClick={onClose} variant="outlined">
+                  Cancel
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </Grid>
-          </Grid>
+              <Button type="submit" variant="contained">
+                  Save Customer
+              </Button>
+            </Box>
+          </Box>
         </Box>
-      </Box>
+      </Fade>
     </Modal>
   );
 };
